@@ -11,11 +11,11 @@ package steganographer;
  */
 public class Launcher {
     public static void main(String[] args) {
-        Steganographer test = new TextSteganographer();
-        String imgPath = "C:\\Users\\Eric West\\Desktop\\Steg Files\\test\\source.png";
-        String msgPath = "C:\\Users\\Eric West\\Desktop\\Steg Files\\test\\message.txt";
-        String stegPath = "C:\\Users\\Eric West\\Desktop\\Steg Files\\test\\stegImage.png";
+        Steganographer test = new PictureSteganographer();
+        String imgPath = "C:\\Users\\Eric West\\Desktop\\Steg Files\\demo4\\source.png";
+        String msgPath = "C:\\Users\\Eric West\\Desktop\\Steg Files\\demo4\\hide.png";
+        String stegPath = "C:\\Users\\Eric West\\Desktop\\Steg Files\\demo4\\stegImage.png";
         test.ApplySteganography(imgPath, msgPath);
-        test.ReadStegImage(stegPath);
+        //test.ReadStegImage(stegPath);
     }
 }
