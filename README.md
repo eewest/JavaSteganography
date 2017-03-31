@@ -1,7 +1,5 @@
 # JavaSteganography
-This is a Java based steganography library. This project began as and is still a hobby that I came across while looking for a project to do
-during my summer. This project currently applies the concept of steganography, to hide data within data, to hide text files and images within images. I plan 
-to further expand this to other types of files and data.
+This is a Java based steganography library. This project began as and is still a hobby that I came across while looking for a project to do during my summer. This project currently applies the concept of steganography, to hide data within data, to hide text files and images within images. I plan to further expand this to other types of files and data.
 
 # What is steganography?
 Steganography is the hiding of information within other information regardless of the type or format of either data. 
@@ -14,6 +12,7 @@ to the image's pixels rgb values Least Significant Bit after zeroing that bit ou
 To use this project you must have the following installed  
 * Java SDK 
 * Java JRE  
+Then remove or edit the Launcher.java file to meet your needs.
 
 # Unlicense
 
