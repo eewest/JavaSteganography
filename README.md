@@ -14,6 +14,9 @@ To use this project you must have the following installed
 * Java JRE  
 Then remove or edit the Launcher.java file to meet your needs.
 
+# How to use this code
+You can either import these java files directly into a project or make a jar to use these files. The Launcher.java can alternatively be used to run the program. Editing the lines 16-18 to point to the directoires that contains the image and text files you want to use.
+
 # Unlicense
 
 This is free and unencumbered software released into the public domain.  
