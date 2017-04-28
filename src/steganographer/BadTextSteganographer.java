@@ -29,12 +29,7 @@ public class BadTextSteganographer extends Steganographer{
         
         //will write the size byte array into the lsb of the first 32 bytes of dest
         for(int idx = 0; idx < size.length; idx++){
-            byte[] bits = splitBits(size[idx]);
-            for(int bitsIdx = 0; bitsIdx < bits.length; bitsIdx++){
-                dest[destPos] = (byte)(dest[destPos] & 0xfe); //mask out the lsb
-                dest[destPos] += (byte)bits[bitsIdx]; // adds either 1 or 0 to the new value
-                destPos++;
-            }
+            dest[destPos++] = size[idx];
         }
         
         //writes the data array to the lsb of the dest array starting after the 
@@ -48,12 +43,12 @@ public class BadTextSteganographer extends Steganographer{
     protected byte[] read(BufferedImage stegImage) {
         byte[] imageData = LoadImageBytes(stegImage);
         int size = 0;
-        for(int i = 0; i < 32; i++){
-            size = ((size << 1) | (imageData[i] & 1));
+        for(int i = 0; i < 4; i++){
+            size +=  (imageData[i]);
             
         }
         byte[] textData = new byte[size];
-        int imageIdx = 32;
+        int imageIdx = 4;
         for( int textIdx = 0; textIdx < size; textIdx++){
             textData[textIdx] = imageData[imageIdx++];
         }
