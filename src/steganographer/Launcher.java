@@ -12,10 +12,10 @@ package steganographer;
 public class Launcher {
     public static void main(String[] args) {
         Steganographer test = new BadTextSteganographer();
-        String imgPath = "/home/eewest/Desktop/StegFiles/source.png";
-        String msgPath = "/home/eewest/Desktop/StegFiles/message.txt";
-        String stegPath = "/home/eewest/Desktop/StegFiles/stegImage.png";
-        //test.ApplySteganography(imgPath, msgPath);
+        String imgPath = "/home/eewest/Pictures/source.png";
+        String msgPath = "/home/eewest/Documents/message.txt";
+        String stegPath = "/home/eewest/Pictures/stegImage.png";
+        test.ApplySteganography(imgPath, msgPath);
         test.ReadStegImage(stegPath);
     }
 }
