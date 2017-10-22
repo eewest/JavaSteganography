@@ -45,7 +45,7 @@ public class BadTextSteganographer extends Steganographer{
         int size = 0;
         for(int i = 0; i < 4; i++){
             size +=  Byte.toUnsignedInt(imageData[i]);
-            
+            size = (size << 4);
         }
         byte[] textData = new byte[size];
         int imageIdx = 4;
