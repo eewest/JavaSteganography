@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Eric
  */
-public class BadTextSteganographer extends Steganographer{
+public class BadSteganographer extends Steganographer{
 
     @Override
     protected void write(byte[] data, BufferedImage destination) {
@@ -65,7 +65,7 @@ public class BadTextSteganographer extends Steganographer{
                 String saveTo = imageFilePath.substring(0, imageFilePath.lastIndexOf(File.separatorChar));
                 SaveImage(saveTo, source);
             } catch (IOException ex) {
-                Logger.getLogger(TextSteganographer.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LSBSteganographer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

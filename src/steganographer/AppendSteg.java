@@ -28,21 +28,28 @@ public class AppendSteg extends Steganographer{
         
     }
     
-    protected void write(byte[] data, byte[] destination) {
+    protected byte[] write(byte[] data, byte[] destination) {
         //create a new byte array to contain the bytes of data from message and
         //the image. The +2 is for the new lines added to the end and beginning 
         // of the data byte array
         byte[] allData = new byte[data.length + destination.length + 2];
         
-        //copy byte array for image data
-        System.arraycopy(destination, 0, allData, 0, destination.length);
-        //add new line to end of image data
-        System.arraycopy(new byte[] { (byte)'\n'}, 0, allData, destination.length, 1);
-        //add bytes from data to the allData array
-        System.arraycopy(new byte[] { (byte)'\n'}, 0, allData, destination.length + 1, 1);
-        //finish by adding a final new line
-        System.arraycopy(new byte[] { (byte)'\n'}, 0, allData, destination.length + data.length + 1, 1);
-        
+        try{
+            //copy byte array for image data
+            System.arraycopy(destination, 0, allData, 0, destination.length);
+            //add new line to end of image data
+            System.arraycopy(new byte[] { (byte)'\n'}, 0, allData, destination.length, 1);
+            //add bytes from data to the allData array
+            System.arraycopy(data, 0, allData, destination.length + 1, data.length);
+            //finish by adding a final new line
+            System.arraycopy(new byte[] { (byte)'\n'}, 0, allData, destination.length + data.length + 1, 1);
+            
+        }catch(ArrayIndexOutOfBoundsException ex){
+            System.out.println("Array index out of bounds");
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+        return allData;
     }
 
     @Override
@@ -56,9 +63,9 @@ public class AppendSteg extends Steganographer{
             try {
                 byte[] source = Files.readAllBytes(new File(imageFilePath).toPath());
                 byte[] data = Files.readAllBytes(new File(dataFilePath).toPath());
-                write(data, source);
+                byte[] stegData = write(data, source);
                 String saveTo = imageFilePath.substring(0, imageFilePath.lastIndexOf(File.separatorChar));
-                SaveImage(saveTo, source);
+                SaveImage(saveTo, stegData);
             } catch (IOException ex) {
                 Logger.getLogger(LSBSteganographer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -76,7 +83,7 @@ public class AppendSteg extends Steganographer{
     }
     
     
-    protected boolean SaveImage(String filepath, byte[] stegImage){
+    protected boolean SaveImage(String path, byte[] stegImage){
         try {
             File f = new File(path + File.separatorChar + "stegImage.png");
             //write bytes to a file
