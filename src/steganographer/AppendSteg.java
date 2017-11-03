@@ -58,14 +58,14 @@ public class AppendSteg extends Steganographer{
     }
 
     @Override
-    public void ApplySteganography(String imageFilePath, String dataFilePath) {
+    public void ApplySteganography(String imageFilePath, String dataFilePath, String filename) {
         if(imageFilePath != null && dataFilePath != null){
             try {
                 byte[] source = Files.readAllBytes(new File(imageFilePath).toPath());
                 byte[] data = Files.readAllBytes(new File(dataFilePath).toPath());
                 byte[] stegData = write(data, source);
                 String saveTo = imageFilePath.substring(0, imageFilePath.lastIndexOf(File.separatorChar));
-                SaveImage(saveTo, stegData);
+                SaveImage(saveTo, stegData, filename);
             } catch (IOException ex) {
                 Logger.getLogger(LSBSteganographer.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -83,9 +83,9 @@ public class AppendSteg extends Steganographer{
     }
     
     
-    protected boolean SaveImage(String path, byte[] stegImage){
+    protected boolean SaveImage(String path, byte[] stegImage, String filename){
         try {
-            File f = new File(path + File.separatorChar + "stegImage.png");
+            File f = new File(path + File.separatorChar + filename + ".png");
             //write bytes to a file
             Files.write(f.toPath(), stegImage);
             return true;

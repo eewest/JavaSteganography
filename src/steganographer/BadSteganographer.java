@@ -43,12 +43,14 @@ public class BadSteganographer extends Steganographer{
     protected byte[] read(BufferedImage stegImage) {
         byte[] imageData = LoadImageBytes(stegImage);
         int size = 0;
-        for(int i = 0; i < 4; i++){
-            size +=  Byte.toUnsignedInt(imageData[i]);
+        int imageIdx = 0;
+        
+        for(; imageIdx < 4; imageIdx++){
+            size +=  Byte.toUnsignedInt(imageData[imageIdx]);
             size = (size << 4);
         }
         byte[] textData = new byte[size];
-        int imageIdx = 4;
+        
         for( int textIdx = 0; textIdx < size; textIdx++){
             textData[textIdx] = imageData[imageIdx++];
         }
@@ -56,14 +58,14 @@ public class BadSteganographer extends Steganographer{
     }
 
     @Override
-    public void ApplySteganography(String imageFilePath, String dataFilePath) {
+    public void ApplySteganography(String imageFilePath, String dataFilePath, String filename) {
         if(imageFilePath != null && dataFilePath != null){
             try {
                 BufferedImage source = LoadImage_Copy(imageFilePath);
                 byte[] data = Files.readAllBytes(new File(dataFilePath).toPath());
                 write(data, source);
                 String saveTo = imageFilePath.substring(0, imageFilePath.lastIndexOf(File.separatorChar));
-                SaveImage(saveTo, source);
+                SaveImage(saveTo, source, filename);
             } catch (IOException ex) {
                 Logger.getLogger(LSBSteganographer.class.getName()).log(Level.SEVERE, null, ex);
             }

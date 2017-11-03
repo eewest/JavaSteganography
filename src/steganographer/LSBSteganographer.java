@@ -32,7 +32,7 @@ public class LSBSteganographer extends Steganographer {
             byte[] bits = splitBits(size[idx]);
             for(int bitsIdx = 0; bitsIdx < bits.length; bitsIdx++){
                 dest[destPos] = (byte)(dest[destPos] & 0xfe); //mask out the lsb
-                dest[destPos] += (byte)bits[bitsIdx]; // adds either 1 or 0 to the new value
+                dest[destPos] +=  (byte)bits[bitsIdx] ; // adds either 1 or 0 to the new value
                 destPos++;
             }
         }
@@ -54,28 +54,28 @@ public class LSBSteganographer extends Steganographer {
         byte[] imageData = LoadImageBytes(stegImage);
         int size = 0;
         for(int i = 0; i < 32; i++){
-            size = ((size << 1) | (imageData[i] & 1));
+            size = ((size << 1) + (imageData[i] & 1));
             
         }
         byte[] textData = new byte[size];
         int imageIdx = 32;
         for( int textIdx = 0; textIdx < size; textIdx++){
             for(int i = 0; i < 8; i++){
-                textData[textIdx] = (byte)((textData[textIdx] << 1) | (imageData[imageIdx++] & 1)) ;
+                textData[textIdx] = (byte)((textData[textIdx] << 1) + (imageData[imageIdx++] & 1)) ;
             }
         }
         return textData;
     }
 
     @Override
-    public void ApplySteganography(String imageFilePath, String dataFilePath) {
+    public void ApplySteganography(String imageFilePath, String dataFilePath, String filename) {
         if(imageFilePath != null && dataFilePath != null){
             try {
                 BufferedImage source = LoadImage_Copy(imageFilePath);
                 byte[] data = Files.readAllBytes(new File(dataFilePath).toPath());
                 write(data, source);
                 String saveTo = imageFilePath.substring(0, imageFilePath.lastIndexOf(File.separatorChar));
-                SaveImage(saveTo, source);
+                SaveImage(saveTo, source, filename);
             } catch (IOException ex) {
                 Logger.getLogger(LSBSteganographer.class.getName()).log(Level.SEVERE, null, ex);
             }

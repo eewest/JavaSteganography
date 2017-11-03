@@ -30,7 +30,7 @@ public abstract class Steganographer {
 
     protected abstract byte[] read(BufferedImage stegImage);
     
-    public abstract void ApplySteganography(String imageFilePath, String dataFilePath);
+    public abstract void ApplySteganography(String imageFilePath, String dataFilePath, String filename);
     
     public abstract void ReadStegImage(String filepath);
     
@@ -65,16 +65,19 @@ public abstract class Steganographer {
      */
     protected byte[] LoadImageBytes(BufferedImage image) {
         if (image != null) {
+            //get bitmap for this image
             WritableRaster wRaster = image.getRaster();
+            //extract byte buffer from raster
             DataBufferByte byteBuffer = (DataBufferByte) wRaster.getDataBuffer();
+            //return the byte array withing the buffer containing the pixels
             return byteBuffer.getData();
         }
         return null;
     }
     
-    protected boolean SaveImage(String path, BufferedImage stegImage){
+    protected boolean SaveImage(String path, BufferedImage stegImage, String filename){
         try {
-            File f = new File(path + File.separatorChar + "stegImage.png");
+            File f = new File(path + File.separatorChar + filename  + ".png");
             ImageIO.write(stegImage, "png", f);
             return true;
         } catch (IOException ex) {
@@ -83,6 +86,12 @@ public abstract class Steganographer {
         return false;
     }
     
+    /**
+     * Splits the byte val into an array of bytes each containing a bit from val. 
+     * Each byte in the output array should be a value of 0 or 1.
+     * @param val
+     * @return 
+     */
     protected byte[] splitBits(byte val){
         byte[] bits = new byte[8];
         for(int i = 0; i < 8; i++){
@@ -97,8 +106,10 @@ public abstract class Steganographer {
      * @return 
      */
     protected byte[] splitSize(int size){
+        //integers are usually 32 bits in length for java
         byte[] bytes = new byte[4];
         for(int i = 0; i < 4; i++){
+            //shifts by 24,16,8,0 bits then masks out the first 24 bits 
             bytes[i] = (byte)(size >>> ((8 * (3 - i)) & 0xff));
         } 
         return bytes;
